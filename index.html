@@ -6,6 +6,31 @@
   </head>
   
   <body>
+    <script>
+    var cleanedgrossDtI = []
+    var cleanedGDP = []
+    var grossDtI = d3.tsv("tec00104.tsv.gz", function(error, data) {
+      for (var i in grossDtI) {
+        if (grossDtI[i] !== ": ") {
+          cleanedgrossDtI.push(data[i]);}
+        }
+      }
+    var GDP = d3.tsv("tec00114.tsv.gz",function (error, data) {
+      for (var i in cleanedGDP) {
+        if (cleanedGDP[i] !== ": ") {
+          cleanedGDP.push(data[i]);}
+        }
+      }
+    }
+      ))};
+      
+      console.log(cleanedgrossDtI);
+      console.log(cleanedGDP);
+    
+    
+  
+    
+    </script>
   </body>
   
 </html>
