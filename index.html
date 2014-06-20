@@ -1,37 +1,40 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
-
-  <head>
-    <script src="http://d3js.org/d3.v3.min.js"></script>
-    <title>Index something changed</title>
-  </head>
-  
-  <body>
+    <head>
+        <title>Information Visualisation Project</title>
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    </head>
+    <body>
     <script>
-    var cleanedgrossDtI = []
-    var cleanedGDP = []
-    var grossDtI = d3.tsv("tec00104.tsv.gz", function(error, data) {
-      for (var i in grossDtI) {
-        if (grossDtI[i] !== ": ") {
-          cleanedgrossDtI.push(data[i]);}
-        }
-      }
-    var GDP = d3.tsv("tec00114.tsv.gz",function (error, data) {
-      for (var i in cleanedGDP) {
-        if (cleanedGDP[i] !== ": ") {
-          cleanedGDP.push(data[i]);}
-        }
-      }
-    }
-      ))};
-      
-      console.log(cleanedgrossDtI);
-      console.log(cleanedGDP);
-    
-    
-  
-    
+        var dataValues = [];
+        var countries = [];
+        var data = d3.tsv("tec00104.tsv", function(error, data) {
+            //put all data in array dataValues  
+            for(var country in data) {
+                dataValues.push(data[country]);
+                };
+            
+            //delete the data from 2013
+            for(var country in dataValues) {
+                delete dataValues[country]["2013 "];
+                countries.push(dataValues[country]["unit,sector,indic_na,geo\\time"].slice(-2));
+            };
+            
+            //voor laatste waardes land:
+            //console.log(dataValues[0]["unit,sector,indic_na,geo\\time"].slice(-2));
+            
+            //delete countries with ": "
+            for(country in dataValues) {
+                for(var year in dataValues[country]) {
+                    if(dataValues[country][year] === ": ") {
+                        delete dataValues[country][year];
+                    }
+                }
+            }
+            console.log(dataValues);
+        });
+                    
+        
     </script>
-  </body>
-  
+    </body>
 </html>
