@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<head>
+ <script src="http://d3js.org/d3.v3.min.js"></script>
+</head>
+<body>
+ <script>
+ //these open the datasets 
+ d3.tsv("tec00104.tsv", function(data104) {
+    d3.tsv("tec00114.tsv", function(data114) {
+//here we will store the data we will use
+    	var result104 = new Array();
+    	var result114 = new Array();
+//goes through the rows of the smallest dataset
+      for (i in data104) {
+//creates a list of country codes in the smallest dataset
+        var country = data104[i]["unit,sector,indic_na,geo\\time"].slice(-2);
+//checks if countries overlap between datasets
+        for (j in data114) {
+          if(data114[j]["indic_na,aggreg95,geo\\time"].slice(-2) == country) {
+//checker to see if data is full/empty (for later)
+            var success = 1
+//stores the rownumber of the larger dataset for later
+            var rownumber = j;
+//changes the checker to '0' if data is missing
+            for (k in data104[i]) {
+              if(k != "unit,sector,indic_na,geo\\time" && parseInt(k) != 2013) {
+                if(isNaN(parseFloat(data104[i][k]))) {
+                  success = 0;
+                }
+              }
+            }
+          }
+        }
+  //changes the checker for other dataset
+        for (l in data114[j]) {
+          if(l != "indic_na,aggreg95,geo\\time" && parseInt(l) != 2013 && parseInt(l) != 2001) {
+            if(isNaN(parseFloat(data114[j][l]))) {
+              success = 0;
+            }
+          }
+        }
+//if no data is missing add it to the empty arrays
+      if(success == 1) {
+        result104.push(data104[i])
+        result114.push(data114[rownumber])
+      }
+      }
+  //here you can view the results in the console
+  console.log(result104);
+  console.log(result114);
+    });
+ });
+
+ </script>
+</body>
